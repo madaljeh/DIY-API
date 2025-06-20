@@ -15,6 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DIYDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IAuthantication, AuthanticationService>();
+builder.Services.AddScoped<ICategories, CategoryService>();
 builder.Services.AddSmtpService(builder.Configuration);
 var app = builder.Build();
 
