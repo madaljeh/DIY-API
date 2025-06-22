@@ -20,7 +20,7 @@ namespace DIY_API.Controllers
 
 
         [HttpGet("[action]")]
-        public async Task<IActionResult>  GetAllUsers( )
+        public async Task<IActionResult> GetAllUsers()
         {
             try
             {
@@ -46,12 +46,29 @@ namespace DIY_API.Controllers
             }
         }
         [HttpPost("[action]")]
-        public async Task<IActionResult> CreateAdmin(CreateAdminDTO input )
+        public async Task<IActionResult> CreateAdmin(CreateAdminDTO input)
         {
             try
             {
                 var response = await _appService.CreateAdmin(input);
                 return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        [HttpPut("[action]")]
+        public async Task<IActionResult> UserActivationStatus(int userId, [FromBody] UserActivationDTO input)
+        {
+            try
+            {
+                var response = await _appService.UserActivationStatus(userId, input);
+                if (response)
+                {
+                    return Ok("User activation status updated successfully");
+                }
+                return NotFound("User not found");
             }
             catch (Exception ex)
             {
@@ -88,5 +105,6 @@ namespace DIY_API.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+       
     }
 }

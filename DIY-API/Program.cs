@@ -21,6 +21,10 @@ builder.Services.AddScoped<IRatings, RataingServices>();
 
 builder.Services.AddScoped<IUserManagement, UserManagementService>();
 
+builder.Services.AddScoped<IChallenge, ChallengeService>();
+
+
+
 builder.Services.AddSmtpService(builder.Configuration);
 var app = builder.Build();
 
