@@ -19,6 +19,20 @@ namespace DIY_API.Controllers
         }
 
         [HttpGet("[action]")]
+        public async Task<IActionResult> GetAllRate([FromQuery] PaginationParameters pagination)
+        {
+            try
+            {
+                var response = await _appService.GetAllRate(pagination);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetRateByCallaengeID(int id)
         {
             try
@@ -31,6 +45,7 @@ namespace DIY_API.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+        
         [HttpGet("[action]")]
         public async Task<IActionResult> GetRateByUserID(int id)
         {
@@ -50,6 +65,38 @@ namespace DIY_API.Controllers
             try
             {
                 var response = await _appService.CreateRate(input);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut("[action]")]
+        public async Task<IActionResult> RateActivationStatus(int RateId,[FromBody] RateActivationDTO input)
+        {
+            try
+            {
+                var response = await _appService.RateActivationStatus(RateId, input);
+                if (response)
+                {
+                    return Ok("Rate activation status updated successfully");
+                }
+                return NotFound("Rate not found");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> DeleteRate(int Id)
+        {
+            try
+            {
+                var response = await _appService.DeleteRate(Id);
                 return Ok(response);
             }
             catch (Exception ex)

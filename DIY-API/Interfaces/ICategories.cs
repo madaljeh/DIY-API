@@ -11,5 +11,6 @@ namespace DIY_API.Interfaces
         Task<CategoryDTO> AddNewCategory(NewCategoryDTO input);
         Task<CategoryDTO> UpdateCategory(UpdateCategoryDTO input);
         Task<bool> DeleteCategory(int Id);
+        Task<bool> CategoryActivationStatus(int CategoryId, CategoryActivationDTO input);
     }
 }

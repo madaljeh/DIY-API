@@ -1,5 +1,6 @@
 ﻿using DIY_API.DTOs.Authantication;
 using DIY_API.DTOs.Category;
+using DIY_API.DTOs.Rating;
 using DIY_API.Helper;
 using DIY_API.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -67,6 +68,24 @@ namespace DIY_API.Controllers
             {
                 var response = await _appService.UpdateCategory(input);
                 return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut("[action]")]
+        public async Task<IActionResult> CategoryActivationStatus(int CategoryId,[FromBody] CategoryActivationDTO input)
+        {
+            try
+            {
+                var response = await _appService.CategoryActivationStatus(CategoryId, input);
+                if (response)
+                {
+                    return Ok("Category activation status updated successfully");
+                }
+                return NotFound("Category not found");
             }
             catch (Exception ex)
             {

@@ -27,7 +27,7 @@ namespace DIY_API.Services
                 UpdatedBy = input.UpdatedBy,
                 CreationDate = input.CreationDate,
                 UpdateDate = input.UpdateDate,
-                IsActive = input.IsActive
+                IsActive = true
             };
             _diycontext.Categories.Add(addnew);
             await _diycontext.SaveChangesAsync();
@@ -39,6 +39,20 @@ namespace DIY_API.Services
                 Image = addnew.Image,
                 CreatedBy = addnew.CreatedBy,
             };
+        }
+
+        public async Task<bool> CategoryActivationStatus(int CategoryId, CategoryActivationDTO input)
+        {
+            var Category = await _diycontext.Categories.FindAsync(CategoryId);
+            if (Category == null)
+            {
+                throw new KeyNotFoundException($"Category with ID {CategoryId} not found.");
+            }
+            Category.IsActive = input.IsActive;
+            _diycontext.Categories.Update(Category);
+            await _diycontext.SaveChangesAsync();
+            return true;
+
         }
 
         public async Task<bool> DeleteCategory(int Id)
