@@ -19,6 +19,9 @@ builder.Services.AddScoped<ICategories, CategoryService>();
 builder.Services.AddScoped<IRatings, RataingServices>();
 builder.Services.AddScoped<IUserManagement, UserManagementService>();
 builder.Services.AddScoped<IChallenge, ChallengeService>();
+
+builder.Services.AddScoped<IChallengeResult, ChallengeResultServices>();
+
 builder.Services.AddScoped<IUserChallenge, UserChallengeService>();
 builder.Services.AddScoped<IAdmin, AdminService>();
 
