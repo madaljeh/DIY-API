@@ -68,17 +68,31 @@ namespace DIY_API.Services
         {
             input.Password = HashingHelper.HashValueWith384(input.Password);
             var user = _diycontext.Users
-                 .Where(u => (u.Email == input.Username || u.Username == input.Username) && u.Password == input.Password && u.IsLogedIn == false)
+                .Where(u => (u.Email == input.Username || u.Username == input.Username) && u.Password == input.Password)
                 .SingleOrDefault();
 
             if (user == null)
             {
                 return "Invalid username or password.";
             }
+            if (!user.IsVerified)
+            {
+                return "Your account is not verified.";
+            }
+            if (!user.IsActive)
+            {
+                return "Your account is inactive.";
+            }
+            if (user.IsLogedIn)
+            {
+                return "User is already logged in.";
+            }
+
+         
             user.IsLogedIn = true;
             _diycontext.Update(user);
-           await  _diycontext.SaveChangesAsync();
-            
+            await _diycontext.SaveChangesAsync();
+
             var token = TokenHelper.GenerateJWTToken(user.UserId.ToString(), "Customer");
 
             return $"User signed in successfully. Token: {token}";

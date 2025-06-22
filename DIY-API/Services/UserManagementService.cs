@@ -1,4 +1,5 @@
 ﻿using DIY_API.DTOs.User;
+using DIY_API.Helpers;
 using DIY_API.Interfaces;
 using DIY_API.Models;
 using EmailServicePackage.Interfaces;
@@ -25,7 +26,7 @@ namespace DIY_API.Services
                 FirstName = input.FirstName,
                 LastName = input.LastName,
                 Username = input.Username,
-                Password = input.Password,
+                Password = HashingHelper.HashValueWith384(input.Password),
                 Email = input.Email,
                 PhoneNumber = input.PhoneNumber,
                 ProfileImage = input.ProfileImage,
@@ -113,6 +114,19 @@ namespace DIY_API.Services
             await _diycontext.SaveChangesAsync();
 
             return "User information updated successfully";
+        }
+
+        public async Task<bool> UserActivationStatus(int userId, UserActivationDTO input)
+        {
+         var user = await _diycontext.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return false; 
+            }
+            user.IsActive = input.IsActive;
+            _diycontext.Users.Update(user);
+            await _diycontext.SaveChangesAsync();
+            return true;
         }
     }
 }
