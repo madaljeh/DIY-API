@@ -88,7 +88,6 @@ namespace DIY_API.Services
                 return "User is already logged in.";
             }
 
-         
             user.IsLogedIn = true;
             _diycontext.Update(user);
             await _diycontext.SaveChangesAsync();
