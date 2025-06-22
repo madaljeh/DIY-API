@@ -15,13 +15,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DIYDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IAuthantication, AuthanticationService>();
-
 builder.Services.AddScoped<ICategories, CategoryService>();
 builder.Services.AddScoped<IRatings, RataingServices>();
-
 builder.Services.AddScoped<IUserManagement, UserManagementService>();
-
 builder.Services.AddScoped<IChallenge, ChallengeService>();
+builder.Services.AddScoped<IUserChallenge, UserChallengeService>();
+builder.Services.AddScoped<IAdmin, AdminService>();
+
+
 
 
 
