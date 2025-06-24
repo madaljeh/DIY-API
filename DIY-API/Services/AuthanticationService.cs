@@ -122,7 +122,9 @@ namespace DIY_API.Services
             user.Password = HashingHelper.HashValueWith384(input.Password);
             user.Email = input.Email;
             user.PhoneNumber = input.PhoneNumber;
-            
+            user.Age= input.Age;
+            user.Gender = input.Gender;
+
             user.ProfileImage = input.ProfileImage ?? "default.png";
             user.RoleId = 2;
             user.IsActive = true;

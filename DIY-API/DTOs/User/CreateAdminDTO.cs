@@ -15,6 +15,9 @@
         public string? PhoneNumber { get; set; }
 
         public string? ProfileImage { get; set; }
+        public int Age { get; set; }
+
+        public string Gender { get; set; } = null!;
 
 
         public DateTime? CreationDate { get; set; }
