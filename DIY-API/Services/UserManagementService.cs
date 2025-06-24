@@ -29,6 +29,8 @@ namespace DIY_API.Services
                 Password = HashingHelper.HashValueWith384(input.Password),
                 Email = input.Email,
                 PhoneNumber = input.PhoneNumber,
+                Age = input.Age,
+                Gender = input.Gender,
                 ProfileImage = input.ProfileImage,
                 IsActive = true, 
                 RoleId = 1, 
@@ -63,6 +65,8 @@ namespace DIY_API.Services
                 Username = user.Username,
                 Password = user.Password,
                 Email = user.Email,
+                Age= user.Age,
+                Gender = user.Gender,
                 PhoneNumber = user.PhoneNumber,
                 ProfileImage = user.ProfileImage,
                 IsActive = user.IsActive,
@@ -87,6 +91,8 @@ namespace DIY_API.Services
                 Username = user.Username,
                 Password = user.Password,
                 Email = user.Email,
+                Age= user.Age,
+                Gender = user.Gender,
                 PhoneNumber = user.PhoneNumber,
                 ProfileImage = user.ProfileImage,
                 IsActive = user.IsActive,
@@ -107,6 +113,8 @@ namespace DIY_API.Services
             user.LastName = input.LastName;
             user.Username = input.Username;
             user.Email = input.Email;
+            user.Age = input.Age;
+            user.Gender = input.Gender;
             user.PhoneNumber = input.PhoneNumber;
             user.ProfileImage = input.ProfileImage;
          

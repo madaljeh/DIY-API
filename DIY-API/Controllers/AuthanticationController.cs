@@ -56,45 +56,7 @@ namespace DIY_API.Controllers
             }
         }
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> SendOTP(string email)
-        {
-            try
-            {
-                var response = await _appService.SendOTP(email);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-        [HttpPost("[action]")]
-        public async Task<IActionResult> Verification(VerificationInputDTO input)
-        {
-            try
-            {
-                var response = await _appService.Verification(input);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-        [HttpPost("[action]")]
-        public async Task<IActionResult> ResetPersonPassword(ResetPersonPasswordInputDTO input )
-        {
-            try
-            {
-                var response = await _appService.ResetPersonPassword(input);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
+       
     }
 
 }

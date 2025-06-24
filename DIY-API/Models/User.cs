@@ -16,7 +16,6 @@ public partial class User
     public string Password { get; set; } = null!;
 
     public string Email { get; set; } = null!;
-   
 
     public string? PhoneNumber { get; set; }
 
@@ -43,6 +42,10 @@ public partial class User
     public DateTime? LastLoginTime { get; set; }
 
     public bool IsLogedIn { get; set; }
+
+    public int Age { get; set; }
+
+    public string Gender { get; set; } 
 
     public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
 

@@ -20,49 +20,9 @@ namespace DIY_API.Services
             _smtpService = smtpService;
         }
 
-        public async Task<bool> ResetPersonPassword(ResetPersonPasswordInputDTO input)
-        {
-            var user = _diycontext.Users.Where(u => u.Email == input.Email && u.Otp == input.Otp
-                     && u.IsLogedIn == false && u.ExpireOtp > DateTime.Now).SingleOrDefault();
-            if (user == null)
-            {
-                return false;
-            }
-            if (input.Password != input.ConfirmPassword)
-            {
-                return false;
-            }
-            user.Password = HashingHelper.HashValueWith384(input.ConfirmPassword);
-            user.Otp = null;
-            user.ExpireOtp = null;
-            
-            _diycontext.Update(user);
-            await _diycontext.SaveChangesAsync();
+      
 
-            return true;
-        }
-
-        public async Task<bool> SendOTP(string email)
-        {
-            var user = _diycontext.Users.Where(x => x.Email == email && x.IsLogedIn == false).SingleOrDefault();
-            if (user == null)
-            {
-                return false;
-            }
-            Random random = new Random();
-            var otp = random.Next(11111, 99999);
-            user.Otp = otp.ToString();
-            user.ExpireOtp = DateTime.Now.AddMinutes(5);
-            await _smtpService.SendEmailAsync(new SendEmailDto()
-            {
-                To = email,
-                Subject = "Your OTP",
-                Body = $"{user.Otp} valid until {user.ExpireOtp}"
-            });
-            _diycontext.Users.Update(user);
-            await _diycontext.SaveChangesAsync();
-            return true;
-        }
+    
 
         public async Task<string> SignIn(SignInInputDTO input)
         {
@@ -122,32 +82,20 @@ namespace DIY_API.Services
             user.Password = HashingHelper.HashValueWith384(input.Password);
             user.Email = input.Email;
             user.PhoneNumber = input.PhoneNumber;
-            
+            user.Age= input.Age;
+            user.Gender = input.Gender;
+
             user.ProfileImage = input.ProfileImage ?? "default.png";
             user.RoleId = 2;
             user.IsActive = true;
+            user.IsVerified = true; 
 
-
-
-            Random random = new Random();
-            var otp = random.Next(11111, 99999);
-            user.Otp = otp.ToString();
-            user.ExpireOtp = DateTime.Now.AddMinutes(5);
 
             try
             {
                 _diycontext.Users.Add(user);
-                await _diycontext.SaveChangesAsync(); 
-
-               
-                await _smtpService.SendEmailAsync(new SendEmailDto
-                {
-                    To = input.Email,
-                    Subject = "Your OTP",
-                    Body = $"{user.Otp} (valid until {user.ExpireOtp:HH:mm})"
-                });
-
-                return "Verification email sent. Please check your inbox.";
+                await _diycontext.SaveChangesAsync();
+                return "User registered successfully.";
             }
             catch (DbUpdateException dbEx)
             {
@@ -161,38 +109,6 @@ namespace DIY_API.Services
 
         }
 
-        public async Task<string> Verification(VerificationInputDTO input)
-        {
-            var user = _diycontext.Users.Where(u => (u.Email == input.Email || u.Username == input.Email) && u.Otp == input.Otp
-             && u.IsLogedIn == false && u.ExpireOtp > DateTime.Now).SingleOrDefault();
-            if (user == null)
-            {
-                return "User not found";
-            }
-
-            if (input.IsLogedIn)
-            {
-                user.IsVerified = true;
-                user.ExpireOtp = null;
-                user.Otp = null;
-                _diycontext.Update(user);
-                await _diycontext.SaveChangesAsync();
-                return "Your Account Is Verifyed";
-            }
-            else
-            {
-                
-                user.LastLoginTime = DateTime.Now;
-                user.IsLogedIn = false;
-                user.ExpireOtp = null;
-                user.Otp = null;
-
-                _diycontext.Update(user);
-                await _diycontext.SaveChangesAsync();
-
-                var response = TokenHelper.GenerateJWTToken(user.UserId.ToString(), "Customer");
-                return response;
-            }
-        }
+        
     }
 }
