@@ -18,28 +18,38 @@ namespace DIY_API.Services
         }
         public async Task<CategoryDTO> AddNewCategory(NewCategoryDTO input)
         {
-            var addnew = new Category
+            try
             {
-                CategoryNameAr = input.CategoryNameAr,
-                CategoryNameEn = input.CategoryNameEn,
-                Image = input.Image,
-                CreatedBy = input.CreatedBy,
-                UpdatedBy = input.UpdatedBy,
-                CreationDate = input.CreationDate,
-                UpdateDate = input.UpdateDate,
-                IsActive = true
-            };
-            _diycontext.Categories.Add(addnew);
-            await _diycontext.SaveChangesAsync();
-            return new CategoryDTO
+                var addnew = new Category
+                {
+                    CategoryNameAr = input.CategoryNameAr,
+                    CategoryNameEn = input.CategoryNameEn,
+                    Image = input.Image,
+                    CreatedBy = input.CreatedBy,
+                    UpdatedBy = input.UpdatedBy,
+                    CreationDate = input.CreationDate,
+                    UpdateDate = input.UpdateDate,
+                    IsActive = true
+                };
+
+                _diycontext.Categories.Add(addnew);
+                await _diycontext.SaveChangesAsync();
+
+                return new CategoryDTO
+                {
+                    CategoryId = addnew.CategoryId,
+                    CategoryNameAr = addnew.CategoryNameAr,
+                    CategoryNameEn = addnew.CategoryNameEn,
+                    Image = addnew.Image,
+                    CreatedBy = addnew.CreatedBy,
+                };
+            }
+            catch (Exception ex)
             {
-                CategoryId = addnew.CategoryId,
-                CategoryNameAr = addnew.CategoryNameAr,
-                CategoryNameEn = addnew.CategoryNameEn,
-                Image = addnew.Image,
-                CreatedBy = addnew.CreatedBy,
-            };
+                throw new Exception($"An error occurred while saving the category: {ex.InnerException?.Message}", ex);
+            }
         }
+
 
         public async Task<bool> CategoryActivationStatus(int CategoryId, CategoryActivationDTO input)
         {
