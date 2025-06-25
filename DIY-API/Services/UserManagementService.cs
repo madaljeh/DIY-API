@@ -32,7 +32,8 @@ namespace DIY_API.Services
                 Age = input.Age,
                 Gender = input.Gender,
                 ProfileImage = input.ProfileImage,
-                IsActive = true, 
+                IsActive = true,
+                IsVerified=true,
                 RoleId = 1, 
                 CreationDate = DateTime.UtcNow
             };

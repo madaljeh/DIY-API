@@ -32,21 +32,31 @@ namespace DIY_API.Services
 
         public async Task<string> CreateChallenge(CreateChallengeDTO input)
         {
-            var challenge = new Challenge
+            try
             {
-                Title = input.Title,
-                Description = input.Description,
-                MediaUrl = input.MediaUrl,
-                Level = input.Level,
-                EstimatedDuration = input.EstimatedDuration,
-                CategoryId = input.CategoryId,
-                CreatedBy = input.CreatedBy,
-                CreationDate = input.CreationDate ?? DateTime.UtcNow,
-                IsActive = input.IsActive
-            };
-            _diycontext.Challenges.Add(challenge);
-            await _diycontext.SaveChangesAsync();
-            return "Challenge created successfully";
+
+
+                var challenge = new Challenge
+                {
+                    Title = input.Title,
+                    Description = input.Description,
+                    MediaUrl = input.MediaUrl,
+                    Level = input.Level,
+                    EstimatedDuration = input.EstimatedDuration,
+                    CategoryId = input.CategoryId,
+                    CreatedBy = input.CreatedBy,
+                    CreationDate = input.CreationDate ?? DateTime.UtcNow,
+                    IsActive = input.IsActive
+                };
+                _diycontext.Challenges.Add(challenge);
+                await _diycontext.SaveChangesAsync();
+                return "Challenge created successfully";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred while saving the category: {ex.InnerException?.Message}", ex);
+            }
+            
 
         }
 
